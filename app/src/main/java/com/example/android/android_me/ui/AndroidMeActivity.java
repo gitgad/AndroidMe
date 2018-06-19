@@ -32,10 +32,16 @@ public class AndroidMeActivity extends AppCompatActivity {
         setContentView(R.layout.activity_android_me);
 
         if(savedInstanceState == null){
+            int headIndex = 0;
+            int bodyIndex = 0;
+            int legsIndex = 0;
+
             Bundle b = getIntent().getExtras();
-            int headIndex = b.getInt(MainActivity.KEY_HEAD_INDEX);
-            int bodyIndex = b.getInt(MainActivity.KEY_BODY_INDEX);
-            int legsIndex = b.getInt(MainActivity.KEY_LEGS_INDEX);
+            if(b != null){
+                headIndex = b.getInt(MainActivity.KEY_HEAD_INDEX);
+                bodyIndex = b.getInt(MainActivity.KEY_BODY_INDEX);
+                legsIndex = b.getInt(MainActivity.KEY_LEGS_INDEX);
+            }
 
             FragmentManager fragmentManager = getSupportFragmentManager();
 

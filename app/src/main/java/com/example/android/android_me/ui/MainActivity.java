@@ -52,6 +52,8 @@ public class MainActivity extends AppCompatActivity implements MasterListFragmen
         } else {
             mTwoPane = false;
         }
+
+        startDetailActivityOnButtonPress(null);
     }
 
     @Override
@@ -86,8 +88,14 @@ public class MainActivity extends AppCompatActivity implements MasterListFragmen
         b.putInt(KEY_BODY_INDEX, mBodyIndex);
         b.putInt(KEY_LEGS_INDEX, mLegsIndex);
 
+        startDetailActivityOnButtonPress(b);
+    }
+
+    private void startDetailActivityOnButtonPress(Bundle b){
         final Intent startDetailActivity = new Intent(this, AndroidMeActivity.class);
-        startDetailActivity.putExtras(b);
+        if(b != null){
+            startDetailActivity.putExtras(b);
+        }
 
         Button nextButton = (Button) findViewById(R.id.next_btn);
         nextButton.setOnClickListener(new View.OnClickListener() {

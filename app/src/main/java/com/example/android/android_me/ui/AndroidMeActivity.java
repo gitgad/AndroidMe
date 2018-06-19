@@ -37,23 +37,35 @@ public class AndroidMeActivity extends AppCompatActivity {
             int bodyIndex = b.getInt(MainActivity.KEY_BODY_INDEX);
             int legsIndex = b.getInt(MainActivity.KEY_LEGS_INDEX);
 
-            // Create a new body parts fragments
-            BodyPartFragment headFragment = new BodyPartFragment();
-            headFragment.setmListIds(AndroidImageAssets.getHeads());
-            headFragment.setmIndex(headIndex);
-
-            BodyPartFragment bodyFragment = new BodyPartFragment();
-            bodyFragment.setmListIds(AndroidImageAssets.getBodies());
-            bodyFragment.setmIndex(bodyIndex);
-
-            BodyPartFragment legsFragment = new BodyPartFragment();
-            legsFragment.setmListIds(AndroidImageAssets.getLegs());
-            legsFragment.setmIndex(legsIndex);
-
-            // Add the fragments to their containers
             FragmentManager fragmentManager = getSupportFragmentManager();
 
-            fragmentManager.beginTransaction()
+            drawFragments(fragmentManager, headIndex, bodyIndex, legsIndex, false);
+        }
+    }
+
+    public static void drawFragments(FragmentManager manager, int headIndex, int bodyIndex, int legsIndex, boolean shouldReplace){
+        // Create a new body parts fragments
+        BodyPartFragment headFragment = new BodyPartFragment();
+        headFragment.setmListIds(AndroidImageAssets.getHeads());
+        headFragment.setmIndex(headIndex);
+
+        BodyPartFragment bodyFragment = new BodyPartFragment();
+        bodyFragment.setmListIds(AndroidImageAssets.getBodies());
+        bodyFragment.setmIndex(bodyIndex);
+
+        BodyPartFragment legsFragment = new BodyPartFragment();
+        legsFragment.setmListIds(AndroidImageAssets.getLegs());
+        legsFragment.setmIndex(legsIndex);
+
+        // Add the fragments to their containers
+        if(shouldReplace){
+            manager.beginTransaction()
+                    .replace(R.id.head_container, headFragment)
+                    .replace(R.id.body_container, bodyFragment)
+                    .replace(R.id.legs_container, legsFragment)
+                    .commit();
+        } else {
+            manager.beginTransaction()
                     .add(R.id.head_container, headFragment)
                     .add(R.id.body_container, bodyFragment)
                     .add(R.id.legs_container, legsFragment)

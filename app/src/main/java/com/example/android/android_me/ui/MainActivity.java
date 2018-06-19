@@ -3,9 +3,11 @@ package com.example.android.android_me.ui;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
+import android.widget.GridView;
 import android.widget.Toast;
 
 import com.example.android.android_me.R;
@@ -26,11 +28,30 @@ public class MainActivity extends AppCompatActivity implements MasterListFragmen
     public static final String KEY_BODY_INDEX = "key-body-index";
     public static final String KEY_LEGS_INDEX = "key-legs-index";
 
+    private boolean mTwoPane;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        // Check if we are running on a tablet
+        if(findViewById(R.id.android_me_linear_layout) != null){
+            mTwoPane = true;
+
+            // Get rid of the next button
+            Button nextBtn = (Button)findViewById(R.id.next_btn);
+            nextBtn.setVisibility(View.GONE);
+
+            // Set new num of columns in the gridview for better UX
+            GridView gridView = (GridView) findViewById(R.id.master_gridview);
+            gridView.setNumColumns(2);
+
+            FragmentManager manager = getSupportFragmentManager();
+            AndroidMeActivity.drawFragments(manager, 0, 0, 0, false);
+        } else {
+            mTwoPane = false;
+        }
     }
 
     @Override
@@ -53,6 +74,11 @@ public class MainActivity extends AppCompatActivity implements MasterListFragmen
                 break;
             default:
                 break;
+        }
+
+        if(mTwoPane){
+            FragmentManager manager = getSupportFragmentManager();
+            AndroidMeActivity.drawFragments(manager, mHeadIndex, mBodyIndex, mLegsIndex, true);
         }
 
         Bundle b = new Bundle();
